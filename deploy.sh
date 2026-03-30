@@ -8,7 +8,7 @@ rm -rf doc
 sleep 2
 bundle exec yard
 mv gitbak doc/.git
-cd build
+cd doc
 echo rcalc.davidsiaw.net > CNAME
 git add .
 git commit -m "update"
