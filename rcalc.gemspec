@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/davidsiaw/rcalc'
   spec.metadata['changelog_uri'] = 'https://github.com/davidsiaw/rcalc'
+  spec.metadata['documentation_uri'] = 'https://rcalc.davidsiaw.net/'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = Dir['{exe,data,lib}/**/*'] + %w[Gemfile rcalc.gemspec]

@@ -20,6 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
+Main documentation is at: https://rcalc.davidsiaw.net/
+
 ### Terminal colors
 
 ```ruby
