@@ -1,9 +1,11 @@
 module Rcalc
+  ##
+  # This class contains utilities related to terminal. Its initializer does not take any arguments.
+  #
   class Terminal
-    def initialize
-      @continuous_listen = false
-    end
-
+    ##
+    # Performs a blocking console query. Used by other functions in this class
+    #
     def blocking_console_query(query, listen_until)
       # send query and block wait for response
       res = ''
@@ -24,11 +26,28 @@ module Rcalc
       res
     end
 
+    ##
+    # Gets the cursor position in the terminal. Returns two variables, x and y. Takes no arguments.
+    #
+    # @return [Integer, Integer] x and y, or column, row in that order.
+    #
+    # @example
+    #   t = Rcalc::Terminal.new
+    #   x, y = t.pos
+    #
     def pos
       m = blocking_console_query('6n', 'R').match(/(?<row>\d+);(?<column>\d+)/)
       [Integer(m[:column]), Integer(m[:row])]
     end
 
+    ##
+    # Gets the size of the terminal in characters. Returns two variables, width and height. Takes no arguments.
+    #
+    # @return [Integer, Integer] width and height, or columns, rows in that order.
+    # @example
+    #   t = Rcalc::Terminal.new
+    #   w, h = t.size
+    #
     def size
       # get current position
       x, y = pos
@@ -45,10 +64,16 @@ module Rcalc
       [tx, ty]
     end
 
+    ##
+    # Function to get the CSI sequence. Used by other functions in the class
+    #
     def esc
       "\e["
     end
 
+    ##
+    # Function to print the CSI sequence followed by some command. Used by other functions in the class
+    #
     def e!(command)
       print "#{esc}#{command}"
     end
@@ -69,10 +94,24 @@ module Rcalc
       end
     end
 
+    ##
+    # Sets the current text color to a number
+    #
+    # @example set text color to red
+    #   t = Rcalc::Terminal.new
+    #   t.color!(Rcalc::TERMINAL_COLORS[:red])
+    #
     def color!(id)
       e! "38;5;#{id}m"
     end
 
+    ##
+    # Sets the current background color to a number
+    #
+    # @example set background color to red
+    #   t = Rcalc::Terminal.new
+    #   t.bgcolor!(Rcalc::TERMINAL_COLORS[:red])
+    #
     def bgcolor!(id)
       e! "48;5;#{id}m"
     end
@@ -87,10 +126,35 @@ module Rcalc
       end
     end
 
+    ##
+    # Sets the current text color to a RGB value
+    #
+    # @example set text color to red
+    #   t = Rcalc::Terminal.new
+    #   t.rgb!(255,0,0)
+    #
     def rgb!(r, g, b)
       e! "38;2;#{r};#{g};#{b}m"
     end
 
+    ##
+    # Sets the current background color to a RGB value
+    #
+    # @example set background color to red
+    #   t = Rcalc::Terminal.new
+    #   t.bgrgb!(255,0,0)
+    #
+    def bgrgb!(r, g, b)
+      e! "48;2;#{r};#{g};#{b}m"
+    end
+
+    ##
+    # Sets cursor position
+    #
+    # @example set cursor to 10,10
+    #   t = Rcalc::Terminal.new
+    #   t.goto!(10, 10)
+    #
     def goto!(x, y)
       e! "#{y};#{x}f"
     end
@@ -128,6 +192,15 @@ module Rcalc
       res
     end
 
+    ##
+    # Listen for keypresses on the terminal
+    #
+    # @example
+    #   t = Rcalc::Terminal.new
+    #   t.listen! do |key|
+    #     print key
+    #   end
+    #
     def listen!(&block)
       $stdin.raw do |stdin|
         collect = ''
