@@ -13,7 +13,7 @@ jobs:
         restore-keys: deps
     - name: setup
       run: |-
-        git config --global --add safe.directory /__w/gem-base/gem-base
+        git config --global --add safe.directory /__w/rcalc/rcalc
         gem install bundler
         git submodule update --init
         bundle config set path 'vendor/bundle'

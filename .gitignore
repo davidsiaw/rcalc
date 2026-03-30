@@ -16,3 +16,6 @@ Gemfile.lock
 # crun.d
 .bundler
 .cmdsh
+
+.cache/
+main.rb
